@@ -1,0 +1,76 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Question {
+    private String questionText;
+    private ArrayList<String> options;
+    private String correctAnswer;
+
+    public Question(String questionText, ArrayList<String> options, String correctAnswer) {
+        this.questionText = questionText;
+        this.options = options;
+        this.correctAnswer = correctAnswer;
+    }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public ArrayList<String> getOptions() {
+        return options;
+    }
+
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+}
+
+class Quiz {
+    private ArrayList<Question> questions;
+
+    public Quiz() {
+        questions = new ArrayList<>();
+    }
+
+    public void addQuestion(Question question) {
+        questions.add(question);
+    }
+
+    public void takeQuiz() {
+        Scanner scanner = new Scanner(System.in);
+        int score = 0;
+        int totalQuestions = questions.size();
+
+        for (Question question : questions) {
+            System.out.println(question.getQuestionText());
+            ArrayList<String> options = question.getOptions();
+            for (int i = 0; i < options.size(); i++) {
+                System.out.println((i + 1) + ". " + options.get(i));
+            }
+
+            System.out.print("Enter your answer (1, 2, 3, etc.): ");
+            String userAnswer = scanner.nextLine();
+
+            if (userAnswer.equals(question.getCorrectAnswer())) {
+                score++;
+            }
+        }
+
+        System.out.println("Your score: " + score + "/" + totalQuestions);
+
+        scanner.close();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Question question1 = new Question("What is the capital of France?", new ArrayList<>(List.of("A. London", "B. Paris", "C. Madrid")), "B");
+        Question question2 = new Question("What is the largest planet in our solar system?", new ArrayList<>(List.of("A. Earth", "B. Jupiter", "C. Mars")), "B");
+
+        Quiz quiz = new Quiz();
+        quiz.addQuestion(question1);
+        quiz.addQuestion(question2);
+
+        quiz.takeQuiz();
+    }
+}
